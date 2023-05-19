@@ -3,6 +3,9 @@ package org.example;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.awt.event.WindowStateListener;
 import java.awt.image.BufferedImage;
 import java.net.URL;
 import java.util.stream.IntStream;
@@ -67,14 +70,6 @@ public class Main {
         frame.add(height_text, constraints);
 
         constraints.gridx = 8;
-        constraints.gridy = 16;
-        constraints.gridwidth = 3;
-        constraints.gridheight = 1;
-        JLabel prompt = new JLabel("Окно результата автоматически закроется через 7 сек");
-        prompt.setForeground(new Color(0,128,0));
-        frame.add(prompt, constraints);
-
-        constraints.gridx = 8;
         constraints.gridy = 15;
         constraints.gridwidth = 3;
         constraints.gridheight = 1;
@@ -121,6 +116,43 @@ public class Main {
             getContentPane().setPreferredSize(new Dimension(200,200));
             pack();
             setLocationRelativeTo(null);
+            WindowListener listener = new WindowListener() {
+                @Override
+                public void windowOpened(WindowEvent e) {
+
+                }
+
+                @Override
+                public void windowClosing(WindowEvent e) {
+
+                }
+
+                @Override
+                public void windowClosed(WindowEvent e) {
+
+                }
+
+                @Override
+                public void windowIconified(WindowEvent e) {
+
+                }
+
+                @Override
+                public void windowDeiconified(WindowEvent e) {
+
+                }
+
+                @Override
+                public void windowActivated(WindowEvent e) {
+
+                }
+
+                @Override
+                public void windowDeactivated(WindowEvent e) {
+                    close();
+                }
+            };
+            addWindowListener(listener);
         }
 
         public void show(double imt){
@@ -131,11 +163,6 @@ public class Main {
             else
                 cur_result = normal;
             setVisible(true);
-            current_time = System.currentTimeMillis();
-            new Thread(() -> {
-                while (System.currentTimeMillis() - current_time < 7000){}
-                close();
-            }).start();
         }
 
         private void close(){
